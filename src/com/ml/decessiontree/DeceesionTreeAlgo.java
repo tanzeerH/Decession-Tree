@@ -32,16 +32,23 @@ public class DeceesionTreeAlgo {
 		createArraylists();
 		readFile();
 		
+		runID3Algo();
 		
-		copyAttributes();
-		initShufflelist(count);
-		shuffleList();
-		createAttValuelist();
-		
-		TreeNode root=algorithmID3(attributeList,targetAtt,selectedAttributes);
-		System.out.println("root att: "+root.getAttribute());
-		Tester t=new Tester(root, completeAttList, targetAtt, selectedAttributes,trainCount,count);
-		//Tester t=new Tester(root, completeAttList, targetAtt, selectedAttributes,0,60);
+	}
+	private void runID3Algo()
+	{
+		for(int i=0;i<100;i++)
+		{
+			copyAttributes();
+			initShufflelist(count);
+			shuffleList();
+			createAttValuelist();
+			
+			TreeNode root=algorithmID3(attributeList,targetAtt,selectedAttributes);
+			//System.out.println("root att: "+root.getAttribute());
+			Tester t=new Tester(root, completeAttList, targetAtt, selectedAttributes,trainCount,count,i);
+			//Tester t=new Tester(root, completeAttList, targetAtt, selectedAttributes,0,60);
+		}
 	}
 
 	private void  createArraylists()
@@ -116,12 +123,17 @@ public class DeceesionTreeAlgo {
 	}
 	private void initShufflelist(int count)
 	{
+		suffleList.clear();
 		for(int i=0;i<count;i++)
 			suffleList.add(i);
 	}
 	private void shuffleList()
 	{
 		Collections.shuffle(suffleList);
+		
+		for(int j=0;j<NUM_OF_COLUMS;j++)
+			tempAttList.get(j).clear();
+		
 		for(int i=0;i<count;i++)
 			for(int j=0;j<NUM_OF_COLUMS;j++)
 				tempAttList.get(j).add(completeAttList.get(j).get(i));
@@ -154,6 +166,12 @@ public class DeceesionTreeAlgo {
 	}
 	public void createAttValuelist()
 	{
+		for(int j=0;j<NUM_OF_COLUMS;j++)
+		{
+			attValues.get(j).clear();
+			//System.out.println("val"+ j+"  "+val);
+			
+		}
 	
 		int length=attributeList.get(0).size();
 		
