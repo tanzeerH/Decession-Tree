@@ -7,58 +7,19 @@ public class ID3Helper {
 	ArrayList<Integer> selectedAts;
 	private int targetAtt=9;
 	private int TOTAL_ATTRIBUTES=10;
-	private ArrayList<ArrayList<Integer>> attValues=new ArrayList<ArrayList<Integer>>();
+	private ArrayList<ArrayList<Integer>> attValues;
 	
-	ID3Helper(ArrayList<ArrayList<Integer>> examplList,int targetAtt,ArrayList<Integer> attList)
+	ID3Helper(ArrayList<ArrayList<Integer>> examplList,int targetAtt,ArrayList<Integer> attList,ArrayList<ArrayList<Integer>> attValues)
 	{
 		
 		this.examplList=examplList;
 		this.selectedAts=attList;
 		this.targetAtt=targetAtt;
-		createAttValuelist();
+		this.attValues=attValues;
+		//for(int i=0;i<TOTAL_ATTRIBUTES;i++)
+			//System.out.println(""+attValues.get(i).size());
 	}
-	public void  initArraylists()
-	{
-		for(int i=0;i<TOTAL_ATTRIBUTES;i++)
-		{
-			ArrayList<Integer> list=new ArrayList<Integer>();
-			attValues.add(list);
-		}
-	}
-	public void createAttValuelist()
-	{
 	
-		initArraylists();
-		int length=examplList.get(0).size();
-		
-		for(int i=0;i<length;i++)
-		{
-			for(int j=0;j<TOTAL_ATTRIBUTES;j++)
-			{
-				int val=examplList.get(j).get(i);
-				if(!attValues.get(j).contains(val))
-					attValues.get(j).add(val);
-			}
-		}
-		
-		
-		//System.out.println("Printing values");
-		for(int j=0;j<TOTAL_ATTRIBUTES;j++)
-		{
-			int val=attValues.get(j).size();
-			//System.out.println("val"+ j+"  "+val);
-			
-		}
-		//System.out.println("Printing values again");
-		for(int j=0;j<attValues.get(0).size();j++)
-		{
-			int val=attValues.get(0).get(j);
-			//System.out.println("val"+ j+"  "+val);
-			
-		}
-		
-		
-	}
 
 	public boolean checkForAllPositive()
 	{
@@ -162,10 +123,11 @@ public class ID3Helper {
 				}
 			}
 			double total=one_count+zero_count;
-			
-			
+			if(total>0)
+			{
 			double entropy=-(zero_count/total)* get2baseLog((zero_count)/total)- (one_count/total)*get2baseLog((one_count/total));
 			total_value+=total/(double)(length)*entropy;
+			}
 			//System.out.println("zero and one count"+ zero_count+"  "+one_count+ "entropy "+ entropy);
 		}
 	//System.out.println("  gain "+ (sysEntropy-total_value) );

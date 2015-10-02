@@ -38,7 +38,7 @@ public class Tester {
 			//System.out.println("temp node "+ tempNode.getAttribute()+ "value "+tempNode.getAttributeValue());
 			int att_no=tempNode.getAttribute();
 			int att_value=tempNode.getAttributeValue();
-			System.out.println(""+index+"  "+ att_no+"   "+ att_value+ "   "+ tempNode.getChildList().size());
+			//System.out.println(""+index+"  "+ att_no+"   "+ att_value+ "   "+ tempNode.getChildList().size());
 			for(int i=0;i<tempNode.getChildList().size();i++)
 			{
 				if(tempNode.getChildList().get(i).getAttribute()==targetAtt || tempNode.getChildList().get(i).getAttributeValue()==-1)

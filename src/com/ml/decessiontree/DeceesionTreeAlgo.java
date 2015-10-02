@@ -24,20 +24,24 @@ public class DeceesionTreeAlgo {
 	int count=0;
 	int trainCount=0;
 	private ArrayList<Integer> suffleList=new ArrayList<Integer>();
+	private ArrayList<ArrayList<Integer>> attValues=new ArrayList<ArrayList<Integer>>();
 	public DeceesionTreeAlgo() {
 
 		
 		this.targetAtt=9;
 		createArraylists();
 		readFile();
+		
+		
 		copyAttributes();
 		initShufflelist(count);
 		shuffleList();
-		
+		createAttValuelist();
 		
 		TreeNode root=algorithmID3(attributeList,targetAtt,selectedAttributes);
 		System.out.println("root att: "+root.getAttribute());
 		Tester t=new Tester(root, completeAttList, targetAtt, selectedAttributes,trainCount,count);
+		//Tester t=new Tester(root, completeAttList, targetAtt, selectedAttributes,0,60);
 	}
 
 	private void  createArraylists()
@@ -59,11 +63,18 @@ public class DeceesionTreeAlgo {
 			ArrayList<Integer> list=new ArrayList<Integer>();
 			completeAttList.add(list);
 		}
+	
+		for(int i=0;i<NUM_OF_COLUMS;i++)
+		{
+			ArrayList<Integer> list=new ArrayList<Integer>();
+			attValues.add(list);
+		}
 		
 		
 	}
 	private void copyAttributes()
 	{
+		selectedAttributes.clear();
 		for(int i=0;i<NUM_OF_COLUMS-1;i++)
 			selectedAttributes.add(i);
 		
@@ -85,8 +96,8 @@ public class DeceesionTreeAlgo {
 				
 				//for testing purpose
 				count++;
-				if(count>400)
-					break;
+				//if(count>200)
+				//	break;
 				
 				
 			}
@@ -122,8 +133,8 @@ public class DeceesionTreeAlgo {
 		for(int i=0;i<count;i++)
 			for(int j=0;j<NUM_OF_COLUMS;j++)
 				{
-				//completeAttList.get(j).add(tempAttList.get(j).get(suffleList.get(i)));
-				completeAttList.get(j).add(tempAttList.get(j).get(i));
+				completeAttList.get(j).add(tempAttList.get(j).get(suffleList.get(i)));
+				//completeAttList.get(j).add(tempAttList.get(j).get(i));
 				}
 		
 		for(int j=0;j<NUM_OF_COLUMS;j++)
@@ -141,14 +152,46 @@ public class DeceesionTreeAlgo {
 		
 		
 	}
+	public void createAttValuelist()
+	{
+	
+		int length=attributeList.get(0).size();
+		
+		for(int i=0;i<length;i++)
+		{
+			for(int j=0;j<NUM_OF_COLUMS;j++)
+			{
+				int val=attributeList.get(j).get(i);
+				if(!attValues.get(j).contains(val))
+					attValues.get(j).add(val);
+			}
+		}
+		
+		
+		//System.out.println("Printing values");
+		for(int j=0;j<NUM_OF_COLUMS;j++)
+		{
+			int val=attValues.get(j).size();
+			//System.out.println("val"+ j+"  "+val);
+			
+		}
+		//System.out.println("Printing values again");
+		for(int j=0;j<attValues.get(0).size();j++)
+		{
+			int val=attValues.get(0).get(j);
+			//System.out.println("val"+ j+"  "+val);
+			
+		}
+		
+		
+	}
 	public TreeNode algorithmID3(ArrayList<ArrayList<Integer>> attList,int targetAtt,ArrayList<Integer> selectedAtts)
 	{
 		/*h++;
 		if(h>10)
 			return null;
 		*/
-		
-		ID3Helper id3Helper=new ID3Helper(attList, targetAtt, selectedAtts);
+		ID3Helper id3Helper=new ID3Helper(attList, targetAtt, selectedAtts,attValues);
 		
 		TreeNode treeNode=new TreeNode();
 		boolean check=id3Helper.checkForAllPositive();
@@ -183,6 +226,7 @@ public class DeceesionTreeAlgo {
 	  
 	 // System.out.println("best attr "+ bestAtt);
 	  ArrayList<Integer> valueList=id3Helper.getAttributeValueLisByIndex(bestAtt);
+	//  System.out.println("best attr "+ bestAtt + "child size "+valueList.size());
 	  for(int i=0;i<valueList.size();i++)
 	  {
 		  TreeNode branchNode=new TreeNode();
