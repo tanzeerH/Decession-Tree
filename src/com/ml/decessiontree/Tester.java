@@ -16,6 +16,8 @@ public class Tester {
 	double accuracy=0;
 	double precession=0;
 	double recall=0;
+	double f_measure=0;
+	double g_mean=0;
 	int true_positive=0;
 	int false_negative=0;
 	int false_positive=0;
@@ -45,11 +47,19 @@ public class Tester {
 		recall=(true_positive)/(double)(true_positive+false_positive)*100;
 		Constants.g_recall+=recall;
 		
+		f_measure=(2*recall*precession)/(recall+precession);
+		Constants.f_measure+=f_measure;
+		
+		g_mean=Math.sqrt(recall*precession);
+		Constants.g_mean+=g_mean;
+		
 		if(round==99)
 		{
 			System.out.println("accuracy:  " + (Constants.g_accuracy/(double)round+1)+ "%");
 			System.out.println("precession:  " + (Constants.g_precession/(double)round+1)+ "%");
 			System.out.println("recall:  " + (Constants.g_recall/(double)round+1)+ "%");
+			System.out.println("f-measure:  " + (Constants.f_measure/(double)round+1)+ "%");
+			System.out.println("gmean:  " + (Constants.g_mean/(double)round+1)+ "%");
 		}
 	}
 	public void testData(int index,TreeNode rn)
