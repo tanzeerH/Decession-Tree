@@ -15,12 +15,14 @@ public class Tester {
 	int right_count=0;
 	double accuracy=0;
 	double precession=0;
+	double negative_presession=0;
 	double recall=0;
 	double f_measure=0;
 	double g_mean=0;
 	int true_positive=0;
 	int false_negative=0;
 	int false_positive=0;
+	int true_negative=0;
 	int round=0;
 	public Tester(TreeNode  rootNode,ArrayList<ArrayList<Integer>> examplList,int targetAtt,ArrayList<Integer> attList,int s,int e,int round) {
 		
@@ -44,14 +46,18 @@ public class Tester {
 		precession=(true_positive)/(double)(true_positive+false_negative)*100;
 		Constants.g_precession+=precession;
 		
+		negative_presession=(true_negative)/(double)(true_negative+false_positive)*100;
+		 Constants.g_neg_accuracy+=negative_presession;
+		//System.out.println("neg : "+ negative_presession + "pos "+ precession);
 		recall=(true_positive)/(double)(true_positive+false_positive)*100;
 		Constants.g_recall+=recall;
 		
 		f_measure=(2*recall*precession)/(recall+precession);
 		Constants.f_measure+=f_measure;
 		
-		g_mean=Math.sqrt(recall*precession);
+		g_mean=Math.sqrt(negative_presession*precession);
 		Constants.g_mean+=g_mean;
+		//System.out.println("gmean : "+ g_mean);
 		
 		if(round==99)
 		{
@@ -102,6 +108,9 @@ public class Tester {
 		
 		if(tempNode.getAttributeValue()== 1 && examplList.get(targetAtt).get(index)==0)
 			false_positive++;
+		
+		if(tempNode.getAttributeValue()== 0 && examplList.get(targetAtt).get(index)==0)
+			true_negative++;
 		
 		
 	}
